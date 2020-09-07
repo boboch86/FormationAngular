@@ -8,7 +8,7 @@ import { RaceService } from '../race.service';
   styleUrls: ['./races.component.css'],
   template: `
   <div *ngFor="let race of races | slice:0:4">
-    <h2>{{ race.name }}</h2>
+    <pr-race [raceModel]="race"></pr-race>
   </div>
   `
 
