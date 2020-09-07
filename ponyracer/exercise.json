@@ -1,1 +1,1 @@
-{"pack":"32","id":7,"title":"Pony component","specs":[{"name":"src/app/pony/pony.component.spec.ts","hash":"71a4565c78833855f1a5f7d9aa35d46b2a42def6"},{"name":"src/app/race/race.component.spec.ts","hash":"f20896cd1c523ec89c13edcf4811cf413102e5cc"}]}
+{"pack":"32","id":9,"title":"Custom pipe with Moment.js","specs":[{"name":"src/app/from-now.pipe.spec.ts","hash":"2a81a6be410e551bc16d82b3ca6da446c8ba6ca8"},{"name":"src/app/race/race.component.spec.ts","hash":"9d7b6867ea3055c0ff589792faae86b23f9e20b1"}]}
