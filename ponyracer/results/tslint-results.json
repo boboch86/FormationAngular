@@ -1,1 +1,1 @@
-[{"endPosition":{"character":22,"line":10,"position":350},"failure":"Missing whitespace in interpolation end; expecting {{ expr }}","fix":[{"innerStart":348,"innerLength":2,"innerText":" }}"}],"name":"C:/Sites/FormationAngular/ponyracer/src/app/races/races.component.ts","ruleName":"angular-whitespace","ruleSeverity":"ERROR","startPosition":{"character":20,"line":10,"position":348}}]
+[]

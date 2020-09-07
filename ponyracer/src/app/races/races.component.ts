@@ -8,7 +8,7 @@ import { RaceService } from '../race.service';
   styleUrls: ['./races.component.css'],
   template: `
   <div *ngFor="let race of races | slice:0:4">
-    <h2>{{ race.name}}</h2>
+    <h2>{{ race.name }}</h2>
   </div>
   `
 
@@ -18,6 +18,6 @@ export class RacesComponent implements OnInit {
   constructor(private raceService: RaceService) { }
 
   ngOnInit() {
-    this.races = this.raceService.list();
+    this.raceService.list().subscribe(races => this.races = races);
   }
 }
