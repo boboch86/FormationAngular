@@ -8,6 +8,7 @@ import { RaceModel } from '../models/race.model';
   template: `
   <div>
   <h2>{{ raceModel.name }}</h2>
+  <p>{{ startInstant | fromNow }}</p>
   <ul>
     <li *ngFor="let pony of raceModel.ponies">
       <pr-pony [ponyModel]="pony"></pr-pony>
