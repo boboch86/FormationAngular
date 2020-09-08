@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, Subject } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { UserModel } from './models/user.model';
 
@@ -9,9 +9,10 @@ import { UserModel } from './models/user.model';
 })
 export class UserService {
 
-  public userEvents = new Subject<UserModel>();
-
-  constructor(private http: HttpClient) { }
+  public userEvents = new BehaviorSubject<UserModel>(undefined);
+  constructor(private http: HttpClient) {
+    this.retrieveUser();
+   }
 
   register(login: string, password: string, birthYear: number): Observable<UserModel> {
     const body = { login: login, password: password, birthYear: birthYear};
@@ -21,7 +22,21 @@ export class UserService {
   authenticate(credentials: {login: string, password: string}): Observable<UserModel> {
     const body = { login: credentials.login, password: credentials.password};
     return this.http.post<UserModel>('http://ponyracer.ninja-squad.com/api/users/authentication', body ).pipe(
-      tap((user: UserModel) => this.userEvents.next(user))
-      );
+      tap((user: UserModel) => {
+        this.storeLoggedInUser(user);
+      }));
+  }
+
+  storeLoggedInUser(user: UserModel) {
+    localStorage.setItem('rememberMe', JSON.stringify(user));
+    this.userEvents.next(user);
+  }
+
+  retrieveUser() {
+    const storedUserRaw = localStorage.getItem('rememberMe');
+    if (storedUserRaw) {
+      const storedUser = JSON.parse(storedUserRaw);
+      this.userEvents.next(storedUser);
+    }
   }
 }

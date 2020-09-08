@@ -1,1 +1,1 @@
-{"pack":"32","id":14,"title":"Display the user","specs":[{"name":"src/app/menu/menu.component.spec.ts","hash":"11e520996d52f88db494bb9e2d725b9dc0e9a975"},{"name":"src/app/user.service.spec.ts","hash":"b8540d4e50ed89070d40c7afd8a82ba071cbb19e"}]}
+{"pack":"32","id":16,"title":"Remember me","specs":[{"name":"src/app/user.service.spec.ts","hash":"242bcfebf918838f7018ac6177965182a43a1774"}]}
