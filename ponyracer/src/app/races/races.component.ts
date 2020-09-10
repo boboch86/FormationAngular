@@ -5,13 +5,7 @@ import { RaceService } from '../race.service';
 @Component({
   selector: 'pr-races',
   templateUrl: './races.component.html',
-  styleUrls: ['./races.component.css'],
-  template: `
-  <div *ngFor="let race of races | slice:0:4">
-    <pr-race [raceModel]="race"></pr-race>
-  </div>
-  `
-
+  styleUrls: ['./races.component.css']
 })
 export class RacesComponent implements OnInit {
   races: Array<RaceModel>;

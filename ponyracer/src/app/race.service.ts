@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 
 import { RaceModel } from './models/race.model';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,14 @@ export class RaceService {
 
   list(): Observable<Array<RaceModel>> {
     const params = { status: 'PENDING' };
-    return this.http.get<Array<RaceModel>>('http://ponyracer.ninja-squad.com/api/races', { params });
+    return this.http.get<Array<RaceModel>>(`${environment.baseUrl}/api/races`, { params });
+  }
+
+  bet(raceId: number, ponyId: number): Observable<RaceModel> {
+    return this.http.post<RaceModel>(`${environment.baseUrl}/api/races/${raceId}/bets`, { ponyId });
+  }
+
+  get(raceId: number): Observable<RaceModel> {
+     return this.http.get<RaceModel>(`${environment.baseUrl}/api/races/${raceId}`);
   }
 }
