@@ -107,6 +107,9 @@ describe('RaceService', () => {
       }]
     });
 
+    expect(positions.length).toBe(1);
+    expect(positions[0].position).toBe(1);
+
     messages.next({
       status: 'RUNNING',
       ponies: [{
@@ -119,6 +122,35 @@ describe('RaceService', () => {
 
     expect(positions.length).toBe(1);
     expect(positions[0].position).toBe(100);
+
+    messages.next({
+      status: 'FINISHED',
+      ponies: [{
+        id: 1,
+        name: 'Superb Runner',
+        color: 'BLUE',
+        position: 101
+      }]
+    });
+
+    expect(positions.length).toBe(1);
+    expect(positions[0].position).toBe(100, 'The observable should stop emitting if the race status is FINISHED');
+  });
+
+  it('should boost a pony in a race', () => {
+    // fake response
+    const race = { name: 'Paris' } as RaceModel;
+    const ponyId = 12;
+    const raceId = 1;
+
+    let actualRace;
+    raceService.boost(raceId, ponyId).subscribe(fetchedRace => actualRace = fetchedRace);
+
+    const req = http.expectOne({ method: 'POST', url: `${environment.baseUrl}/api/races/${raceId}/boosts` });
+    expect(req.request.body).toEqual({ ponyId });
+    req.flush(race);
+
+    expect(actualRace).toBe(race, 'The observable must emit the race');
   });
 
 });

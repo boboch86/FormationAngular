@@ -5,7 +5,7 @@ import { RaceModel, LiveRaceModel } from './models/race.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';
 import { PonyWithPositionModel } from './models/pony.model';
-import { map } from 'rxjs/operators';
+import { map, takeWhile } from 'rxjs/operators';
 import { WsService } from './ws.service';
 
 @Injectable({
@@ -33,6 +33,13 @@ export class RaceService {
   }
 
   live(raceId: number): Observable<Array<PonyWithPositionModel>> {
-    return this.wsService.connect<LiveRaceModel>(`/race/${raceId}`).pipe(map(liveRace => liveRace.ponies));
+    return this.wsService.connect<LiveRaceModel>(`/race/${raceId}`).pipe(
+      takeWhile(liveRace => liveRace.status !== 'FINISHED'),
+      map(liveRace => liveRace.ponies)
+      );
+  }
+
+  boost(raceId: number, ponyId: number) {
+    return this.http.post<RaceModel>(`${environment.baseUrl}/api/races/${raceId}/boosts`, { ponyId });
   }
 }

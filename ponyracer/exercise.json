@@ -1,1 +1,1 @@
-{"pack":"32","id":22,"title":"WebSockets","specs":[{"name":"src/app/race.service.spec.ts","hash":"1dccf749680849eccdb24f738816325397de647a"},{"name":"src/app/ws.service.spec.ts","hash":"c637e0e3c9b64412b9adaac86031abd33a0176f7"}]}
+{"pack":"32","id":24,"title":"Boost a pony","specs":[{"name":"src/app/live/live.component.spec.ts","hash":"acd91624963e1971658db57b894c55fff04b9dc0"},{"name":"src/app/pony/pony.component.spec.ts","hash":"7781edbeb550ed2526e6b9c3ec7ec897676a13aa"},{"name":"src/app/race.service.spec.ts","hash":"730aeb45e35b820561f98fa4da9003d28bbb2b4c"}]}
