@@ -55,4 +55,11 @@ export class UserService {
   scoreUpdates(userId: number): Observable<UserModel> {
       return this.wsService.connect<UserModel>(`/player/${userId}`);
   }
+
+  isLoggedIn(): boolean {
+    if (localStorage.getItem('rememberMe')) {
+        return true;
+      }
+    return false;
+  }
 }
