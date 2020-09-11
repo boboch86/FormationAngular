@@ -1,4 +1,4 @@
-import { PonyModel } from './pony.model';
+import { PonyModel, PonyWithPositionModel } from './pony.model';
 
 export interface RaceModel {
     name: string;
@@ -6,4 +6,8 @@ export interface RaceModel {
     id: number;
     startInstant: string;
     betPonyId?: number;
+  }
+
+  export interface LiveRaceModel {
+    ponies: Array<PonyWithPositionModel>;
   }
