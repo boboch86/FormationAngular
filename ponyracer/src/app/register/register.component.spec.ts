@@ -5,9 +5,10 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { of, throwError } from 'rxjs';
 
-import { AppModule } from '../app.module';
+import { UsersModule } from '../users/users.module';
 import { RegisterComponent } from './register.component';
 import { UserService } from '../user.service';
+import { AlertComponent } from '../shared/alert/alert.component';
 
 describe('RegisterComponent', () => {
 
@@ -15,7 +16,7 @@ describe('RegisterComponent', () => {
   const fakeRouter = jasmine.createSpyObj('Router', ['navigate']);
 
   beforeEach(() => TestBed.configureTestingModule({
-    imports: [AppModule, RouterTestingModule],
+    imports: [UsersModule, RouterTestingModule],
     providers: [
       { provide: UserService, useValue: fakeUserService },
       { provide: Router, useValue: fakeRouter }
@@ -207,7 +208,7 @@ describe('RegisterComponent', () => {
   });
 
   it('should have min/max validators to check the year validity', () => {
-    const fixture: ComponentFixture<RegisterComponent> = TestBed.createComponent(RegisterComponent);
+    const fixture = TestBed.createComponent(RegisterComponent);
     fixture.detectChanges();
 
     const componentInstance = fixture.componentInstance;
@@ -289,10 +290,11 @@ describe('RegisterComponent', () => {
     expect(fakeRouter.navigate).not.toHaveBeenCalled();
     expect(component.registrationFailed).toBe(true, 'You should set a field `registrationFailed` to `true` if the registration fails');
     // and display the error message
-    const errorMessage = fixture.nativeElement.querySelector('#registration-error');
+    const errorMessage = fixture.debugElement.query(By.directive(AlertComponent));
     expect(errorMessage)
-      .not.toBeNull('You should display an error message in a div with id `registration-error` if the registration fails');
-    expect(errorMessage.textContent).toContain('Try again with another login.');
+      .not.toBeNull('You should display an error message in an AlertComponent if the registration fails');
+    expect(errorMessage.nativeElement.textContent).toContain('Try again with another login.');
+    expect(errorMessage.componentInstance.type).toBe('danger', 'The alert should be a danger one');
   });
 
 });

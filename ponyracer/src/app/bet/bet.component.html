@@ -1,9 +1,7 @@
-<div *ngIf="raceModel">
-  <div class="alert alert-danger" *ngIf="betFailed">
-    The race is already started or finished
-  </div>
+<div>
+  <pr-alert *ngIf="betFailed" type="danger" (close)="betFailed = false"> The race is already started or finished</pr-alert>
   <h2>{{ raceModel.name }}</h2>
-  <p>{{ startInstant | fromNow }}</p>
+  <p>{{ raceModel.startInstant | fromNow }}</p>
   <a class="btn btn-primary" [routerLink]="['/races', raceModel.id, 'live']">Watch live!</a>
   <div class="py-2">Click to bet on your favorite pony</div>
   <div class="row">

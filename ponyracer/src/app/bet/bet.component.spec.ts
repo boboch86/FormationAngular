@@ -1,24 +1,24 @@
 import { async, TestBed } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { By } from '@angular/platform-browser';
 import { of, throwError } from 'rxjs';
 
-import { AppModule } from '../app.module';
+import { RacesModule } from '../races/races.module';
 import { RaceService } from '../race.service';
 import { BetComponent } from './bet.component';
 import { PonyComponent } from '../pony/pony.component';
 import { RaceModel } from '../models/race.model';
 import { PonyModel } from '../models/pony.model';
+import { AlertComponent } from '../shared/alert/alert.component';
 
 describe('BetComponent', () => {
-  const fakeRaceService = jasmine.createSpyObj('RaceService', ['get', 'bet', 'cancelBet']);
+  const fakeRaceService = jasmine.createSpyObj('RaceService', ['bet', 'cancelBet']);
   const race = { id: 1, name: 'Paris' } as RaceModel;
-  fakeRaceService.get.and.returnValue(of(race));
-  const fakeActivatedRoute = { snapshot: { paramMap: convertToParamMap({ raceId: 1 }) } };
+  const fakeActivatedRoute = { snapshot: { data: { race } } };
 
   beforeEach(() => TestBed.configureTestingModule({
-    imports: [AppModule, RouterTestingModule],
+    imports: [RacesModule, RouterTestingModule],
     providers: [
       { provide: RaceService, useValue: fakeRaceService },
       { provide: ActivatedRoute, useValue: fakeActivatedRoute }
@@ -126,11 +126,10 @@ describe('BetComponent', () => {
     const component = fixture.componentInstance;
     expect(component.raceModel).toBeUndefined();
 
-    fakeActivatedRoute.snapshot.paramMap = convertToParamMap({ raceId: 1 });
     component.ngOnInit();
 
-    expect(component.raceModel).toBe(race, '`ngOnInit` should initialize the `raceModel`');
-    expect(fakeRaceService.get).toHaveBeenCalledWith(1);
+    expect(component.raceModel).not.toBeUndefined('`ngOnInit` should initialize the `raceModel`');
+    expect(component.raceModel).toEqual(race);
   });
 
   it('should display an error message if bet failed', () => {
@@ -148,9 +147,16 @@ describe('BetComponent', () => {
 
     fixture.detectChanges();
 
-    const element = fixture.nativeElement;
-    const message = element.querySelector('.alert.alert-danger');
-    expect(message.textContent).toContain('The race is already started or finished');
+    const debugElement = fixture.debugElement;
+    const message = debugElement.query(By.directive(AlertComponent));
+    expect(message).not.toBeNull('You should have an AlertComponent if the bet failed');
+    expect(message.nativeElement.textContent).toContain('The race is already started or finished');
+    expect(message.componentInstance.type).toBe('danger', 'The alert should be a danger one');
+
+    // close the alert
+    message.componentInstance.closeHandler();
+    fixture.detectChanges();
+    expect(debugElement.query(By.directive(AlertComponent))).toBeNull('The AlertComponent should be closable');
   });
 
   it('should cancel a bet', () => {

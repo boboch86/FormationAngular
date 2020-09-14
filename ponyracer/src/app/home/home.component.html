@@ -3,8 +3,8 @@
 </div>
 
 <div class="text-center" *ngIf="!user; else loggedIn">
-  <a class="btn btn-primary" routerLink="/login">Login</a>
-  <a class="btn btn-primary" routerLink="/register">Register</a>
+  <a class="btn btn-primary" routerLink="/users/login">Login</a>
+  <a class="btn btn-primary" routerLink="/users/register">Register</a>
 </div>
 <ng-template #loggedIn>
     <a class="btn btn-primary" routerLink="/races">Races</a>
